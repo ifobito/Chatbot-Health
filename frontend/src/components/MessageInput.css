@@ -1,0 +1,87 @@
+.message-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  background-color: #212327; /* Nền tối */
+}
+
+.message-input {
+  position: relative; /* Để .buttons có thể dùng absolute bên trong */
+  display: flex;
+  align-items: flex-start; /* Đảm bảo textarea nằm trên */
+  background-color: #2b2b2b;
+  border-radius: 15px;
+  padding: 8px;
+  width: 700px;
+
+  /* Viền đen ôm sát */
+  border: 0.2px solid #2b2b2b;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+}
+
+textarea {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+  padding: 8px;
+  resize: none;
+  font-size: 14px;
+  min-height: 50px; /* Đảm bảo textarea không quá bé */
+  padding-bottom: 30px; /* Chừa không gian cho nút bên trong */
+}
+
+.buttons {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  display: flex;
+  gap: 5px;
+}
+
+.deepthink-btn, .search-btn {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.deepthink-btn {
+  background-color: #4d6bfe;
+  color: white;
+  
+}
+
+.search-btn {
+  background-color: #444;
+  color: white;
+}
+
+
+.icons {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  display: flex;
+  gap: 8px;
+}
+.attach-btn, .send-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.send-button {
+  width: 25px; /* Đảm bảo hình tròn */
+  height: 25px;
+  border-radius: 50%; /* Biến nó thành hình tròn */
+  border: 2px solid white; /* Viền trắng bao quanh */
+}

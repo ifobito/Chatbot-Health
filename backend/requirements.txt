@@ -1,0 +1,20 @@
+langchain
+langchain-openai
+python-dotenv
+langchain-core 
+# langgraph>0.2.27
+googlesearch-python
+langchain-redis 
+langchain-openai 
+redis
+Flask
+asyncio
+aiohttp
+beautifulsoup4
+langchain
+langchain_openai
+langchain_redis
+langchain_groq
+python-dotenv
+fastapi 
+uvicorn

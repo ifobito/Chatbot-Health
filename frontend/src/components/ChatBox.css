@@ -1,0 +1,46 @@
+.deepseek-intro {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa nội dung */
+    flex-direction: row; /* Hiển thị icon và greeting cùng hàng */
+    padding: 15px;
+    background-color: #212327;
+    transform: translateY(180%);
+}
+
+.icon-container {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px; /* Khoảng cách giữa icon và text */
+    color: #4D6BFE; 
+}
+
+.icon-container svg {
+    width: 90px;
+    height: 90px;
+
+}
+
+/* Cấu trúc lại để greeting và question được xếp đúng */
+.intro-text {
+    display: flex;
+    flex-direction: column; /* Chuyển về dạng cột */
+    align-items: flex-start; /* Căn chữ về bên trái */
+}
+
+.greeting {
+    font-size: 30px;
+    font-weight: bold;
+    color: #f9f9f9;
+    display: flex; /* Đảm bảo greeting có thể đứng ngang icon */
+    align-items: center;
+}
+
+.question {
+    font-size: 20px;
+    color: #f9f9f9;
+    margin-top: 5px; /* Tạo khoảng cách giữa greeting và question */
+}

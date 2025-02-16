@@ -1,0 +1,101 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #212327;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+
+
+.chat-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  /* overflow-y: auto; */
+}
+
+
+/* CHAT BOX MESSAGE */
+.messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Giảm khoảng cách giữa các tin nhắn */
+}
+
+.message-bubble {
+  max-width: fit-content; /* Khung chỉ rộng bằng nội dung */
+  padding: 6px 10px; /* Giảm padding để khung ôm sát chữ hơn */
+  border-radius: 22px; /* Bo góc nhẹ hơn */
+  margin-bottom: 4px; /* Giảm khoảng cách giữa các tin nhắn */
+  line-height: 1.4; /* Tăng độ cao dòng để chữ dễ đọc */
+  font-size: 14px; /* Chỉnh font cho phù hợp */
+}
+
+.user-message {
+  background-color: #414158;
+  align-self: flex-end;
+  color: white;
+  
+}
+
+.ai-message {
+  background-color: #212327;
+  align-self: flex-start;
+  color: white;
+}
+
+.message-time {
+  font-size: 10px;
+  margin-top: 1px; /* Giảm khoảng cách giữa nội dung và thời gian */
+  color: #ccc;
+  text-align: right;
+}
+
+
+/* textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  resize: none;
+  min-height: 40px;
+}
+
+button {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+} */
+
+.loading-spinner {
+  text-align: center;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+

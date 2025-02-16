@@ -1,0 +1,33 @@
+/* HEADER CSS */
+.header {
+    background-color: #212327;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    text-align: center;
+    position: relative;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+ 
+  }
+  .chat-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    transform: translateY(10%);
+  }
+  .chat-state {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    transform: translateY(10%);
+  }
+  

@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+    ports:
+      - "8001:8000"
+    env_file:
+      - ./.env
+    volumes:
+      - ./backend:/app
+
+
+  redis:
+    image: redislabs/redisearch:latest
+    ports:
+      - "6371:6379"
+
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+
+
+
+
