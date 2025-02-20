@@ -18,3 +18,4 @@ langchain_groq
 python-dotenv
 fastapi 
 uvicorn
+langchain-google-genai

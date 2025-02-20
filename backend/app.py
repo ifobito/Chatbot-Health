@@ -18,6 +18,9 @@ from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 import requests
 from fastapi.middleware.cors import CORSMiddleware
+from langchain_google_genai import ChatGoogleGenerativeAI
+from fastapi.responses import StreamingResponse
+
 
 load_dotenv()
 app = FastAPI()
@@ -30,11 +33,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-api_key = os.environ["OPENAI_API_KEY"]
-# groq_api_key = os.getenv('GROQ_API_KEY')
+groq_api_key = os.getenv('GROQ_API_KEY')
+api_key = os.getenv('GENAI_API_KEY')
 
-llm = ChatOpenAI(model="gpt-4o-mini", api_key=api_key,streaming=True)
-# llm = ChatGroq(model="llama-3.3-70b-versatile", api_key=groq_api_key, streaming=True)
+llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-lite-preview-02-05", api_key=api_key, streaming=True)
+llm_classifier = ChatGroq(model="llama-3.3-70b-versatile", api_key=groq_api_key, streaming=True)
 REDIS_URL = os.getenv("REDIS_URL")
 print(f"Connecting to Redis at: {REDIS_URL}")
 
@@ -135,7 +138,7 @@ chain_with_history = RunnableWithMessageHistory(
     chain, get_redis_history, input_messages_key="human_question", history_messages_key="history"
 )
 
-chain_query = prompt_query | llm
+chain_query = prompt_query | llm_classifier
 
 
 @app.get("/")
@@ -158,19 +161,15 @@ async def ask(request: QuestionRequest):
             is_health_question = verify_input.content.strip().lower() == "health"
 
             content = await get_content(user_input) if is_health_question else "Định dạng đầu ra bằng Markdown"
-
-            response = await chain_with_history.ainvoke(
+            
+            async for chunk in chain_with_history.astream(
                 {"content": content, "human_question": user_input},
                 config={"configurable": {"session_id": session_id}}
-            )
+            ):
+                yield f"{chunk.content}\n"
 
-            try:
-                async for chunk in response.stream():
-                    return {"response": chunk}
-            except AttributeError:
-                return {"response": response.content}
-
-        return await process_question()
+        return StreamingResponse(process_question(), media_type="text/plain")
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Exception occurred: {str(e)}")
+
