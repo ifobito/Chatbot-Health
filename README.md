@@ -12,3 +12,50 @@ Trang web chatbot cho y tế là một nền tảng trực tuyến sử dụng c
 
 ## Pipeline hệ thống
 ![alt text](image/image-2.png)
+
+## Tree
+
+```plaintext
+.
+├── backend
+│   ├── app.py
+│   ├── Dockerfile
+│   ├── __pycache__  [error opening dir]
+│   └── requirements.txt
+├── docker-compose.yml
+├── frontend
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── public
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   └── src
+│       ├── App.js
+│       ├── App.test.js
+│       ├── components
+│       │   ├── ChatBox.css
+│       │   ├── ChatBox.js
+│       │   ├── Header.css
+│       │   ├── Header.js
+│       │   ├── LoadingSpinner.js
+│       │   ├── MessageBubble.js
+│       │   ├── MessageInput.css
+│       │   └── MessageInput.js
+│       ├── index.css
+│       ├── index.js
+│       ├── reportWebVitals.js
+│       ├── setupTests.js
+│       └── styles.css
+├── image
+│   ├── image-1.png
+│   ├── image-2.png
+│   └── image.png
+└── README.md
+
+8 directories, 32 files
+```
