@@ -11,12 +11,20 @@ services:
       - ./.env
     volumes:
       - ./backend:/app
+<<<<<<< HEAD
 
+=======
+    restart: unless-stopped
+>>>>>>> 1b5d6ea (Initial commit)
 
   redis:
     image: redislabs/redisearch:latest
     ports:
       - "6371:6379"
+<<<<<<< HEAD
+=======
+    restart: unless-stopped
+>>>>>>> 1b5d6ea (Initial commit)
 
 
   frontend:
@@ -25,7 +33,26 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3000"
+<<<<<<< HEAD
 
 
 
 
+=======
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    command: tunnel --no-autoupdate run --token eyJhIjoiMDZmMzNhZTI4Y2QzMmEwMjAxNzViODE2MzUxNGJjNzMiLCJ0IjoiY2Y1Y2U0ZDYtMjhmYi00ZGExLTkzOWEtMDI0NjQzMmNhZTIxIiwicyI6Ik1qZGpaV015WmpZdE5HRmpaUzAwTm1Wa0xXRTJZMll0TldGbU16WmhNVEF4WWpJeCJ9
+    restart: unless-stopped
+
+  dozzle:
+      image: amir20/dozzle:latest  
+      container_name: dozzle      
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock  
+      ports:
+        - "8080:8080" 
+      restart: unless-stopped
+>>>>>>> 1b5d6ea (Initial commit)
