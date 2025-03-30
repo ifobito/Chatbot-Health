@@ -80,7 +80,7 @@
   font-size: 0.85rem;
 }
 
-.references-section h4 {
+.references-section h3 {
   color: #555;
   margin-bottom: 8px;
   font-weight: 600;
@@ -106,7 +106,7 @@
   border-top-color: rgba(255, 255, 255, 0.2);
 }
 
-.ai-message .references-section h4 {
+.ai-message .references-section h3 {
   color: rgba(255, 255, 255, 0.9);
 }
 
