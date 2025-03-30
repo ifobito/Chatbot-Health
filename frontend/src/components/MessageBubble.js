@@ -36,6 +36,14 @@ const MessageBubble = ({ message, isUser, time, references }) => {
     }
   };
 
+  // Để debug: hiển thị các tham chiếu nhận được
+  console.log("References received:", references);
+
+  // Loại bỏ các tham chiếu rỗng hoặc không hợp lệ
+  const validReferences = references?.filter(ref => 
+    ref && typeof ref === 'string' && ref.trim().startsWith('http')
+  );
+
   return (
     <div className={`message-bubble ${messageClass}`}>
       <div className="message-text">
@@ -43,21 +51,23 @@ const MessageBubble = ({ message, isUser, time, references }) => {
           {message}
         </ReactMarkdown>
         
-        {references && references.length > 0 && (
+        {validReferences && validReferences.length > 0 && (
           <div className="references-section">
             <h3>Tài liệu tham khảo:</h3>
-            <div className="reference-links-container">
-              {references.map((url, index) => (
-                <div key={index} className="reference-item-wrapper">
-                  <span className="reference-bullet">•</span>
-                  <a 
-                    href={url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="reference-link"
-                  >
-                    {formatDisplayUrl(url)}
-                  </a>
+            <div className="references-list">
+              {validReferences.map((url, index) => (
+                <div key={index} className="reference-entry">
+                  <div className="reference-bullet-container">•</div>
+                  <div className="reference-content">
+                    <a 
+                      href={url} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="reference-url"
+                    >
+                      {formatDisplayUrl(url)}
+                    </a>
+                  </div>
                 </div>
               ))}
             </div>
