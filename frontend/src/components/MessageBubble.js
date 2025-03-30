@@ -5,6 +5,18 @@ import remarkGfm from 'remark-gfm';
 const MessageBubble = ({ message, isUser, time, references }) => {
   const messageClass = isUser ? 'user-message' : 'ai-message';
 
+  // Format URL hiển thị thân thiện hơn
+  const formatDisplayUrl = (url) => {
+    try {
+      return url
+        .replace('https://tamanhhospital.vn/', '')
+        .replace(/-/g, ' ')
+        .replace('/', '');
+    } catch (e) {
+      return url;
+    }
+  };
+
   return (
     <div className={`message-bubble ${messageClass}`}>
       <div className="message-text">
@@ -15,20 +27,21 @@ const MessageBubble = ({ message, isUser, time, references }) => {
         {references && references.length > 0 && (
           <div className="references-section">
             <h3>Tài liệu tham khảo:</h3>
-            <ul className="reference-links">
+            <div className="reference-links-container">
               {references.map((url, index) => (
-                <li key={index} className="reference-item">
+                <div key={index} className="reference-item-wrapper">
+                  <span className="reference-bullet">•</span>
                   <a 
                     href={url} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="reference-link"
                   >
-                    {url.replace('https://tamanhhospital.vn/', '').replace(/-/g, ' ').replace('/', '')}
+                    {formatDisplayUrl(url)}
                   </a>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
       </div>
