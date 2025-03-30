@@ -8,12 +8,31 @@ const MessageBubble = ({ message, isUser, time, references }) => {
   // Format URL hiển thị thân thiện hơn
   const formatDisplayUrl = (url) => {
     try {
-      return url
-        .replace('https://tamanhhospital.vn/', '')
+      if (!url) return "";
+      
+      // Kiểm tra URL có hợp lệ
+      if (!url.startsWith('http')) return url;
+      
+      const cleanUrl = url.trim();
+      // Trích xuất phần đường dẫn cuối cùng
+      let displayText = cleanUrl.replace('https://tamanhhospital.vn/', '');
+      
+      // Xóa dấu / ở cuối nếu có
+      if (displayText.endsWith('/')) {
+        displayText = displayText.slice(0, -1);
+      }
+      
+      // Thay thế dấu gạch ngang bằng khoảng trắng và viết hoa chữ cái đầu
+      displayText = displayText
         .replace(/-/g, ' ')
-        .replace('/', '');
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+        
+      return displayText;
     } catch (e) {
-      return url;
+      console.error('Error formatting URL:', e);
+      return url || "";
     }
   };
 
