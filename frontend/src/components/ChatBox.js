@@ -51,9 +51,17 @@ const ChatBox = () => {
         
         const chunk = decoder.decode(value, { stream: true });
         
-        // Kiểm tra xem chunk có chứa delimiter tài liệu tham khảo không
-        if (chunk.includes("###REFERENCES###")) {
-          const parts = chunk.split("###REFERENCES###");
+        // Kiểm tra các loại delimiter có thể có
+        if (chunk.includes("###TÀI LIỆU THAM KHẢO###") || chunk.includes("###REFERENCES###") || chunk.includes("###TÀI LIỆU THAM KHẢO ###")) {
+          let parts;
+          if (chunk.includes("###TÀI LIỆU THAM KHẢO###")) {
+            parts = chunk.split("###TÀI LIỆU THAM KHẢO###");
+          } else if (chunk.includes("###REFERENCES###")) {
+            parts = chunk.split("###REFERENCES###");
+          } else {
+            parts = chunk.split("###TÀI LIỆU THAM KHẢO ###");
+          }
+          
           currentMessage += parts[0];
           isCollectingReferences = true;
           

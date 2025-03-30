@@ -180,7 +180,7 @@ async def ask(request: QuestionRequest):
             
             if is_health_question and reference_urls:
                 # Thêm delimiter để frontend biết đây là phần tài liệu tham khảo
-                yield "\n\n###REFERENCES###\n"
+                yield "\n\n###TÀI LIỆU THAM KHẢO###\n"
                 for url in reference_urls:
                     yield f"{url}\n"
 
