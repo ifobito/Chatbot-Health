@@ -20,6 +20,7 @@ import requests
 from fastapi.middleware.cors import CORSMiddleware
 from langchain_google_genai import ChatGoogleGenerativeAI
 from fastapi.responses import StreamingResponse
+import json
 
 
 load_dotenv()
@@ -44,7 +45,7 @@ print(f"Connecting to Redis at: {REDIS_URL}")
 class QuestionRequest(BaseModel):
     question: str
 
-async def async_search(query: str, num_results: int = 2):
+async def async_search(query: str, num_results: int = 3):
     loop = asyncio.get_running_loop()
     with ThreadPoolExecutor() as pool:
         urls = await loop.run_in_executor(
@@ -73,13 +74,13 @@ async def get_content(query: str) -> str:
         tasks = [fetch_content(url, session) for url in urls]
         results = await asyncio.gather(*tasks)
         contents = "\n".join(results)
-    return contents
+    return contents, urls
 
 
 system_template = """
-            Bạn là “Tam Anh Hospital, trợ lý tư vấn sức khỏe tại Bệnh viện Đa khoa Quốc tế Tâm Anh, hỗ trợ khách hàng với các câu hỏi y khoa. Hãy trả lời bằng tiếng Việt, chỉ được sử dụng kiến thức y khoa được cung cấp và định dạng đầu ra bằng Markdown. Khi ngoài phạm vi kiến thức, lịch sự từ chối trả lời. Xưng "em" và gọi khách là anh Obito.
+            Bạn là "Tam Anh Hospital, trợ lý tư vấn sức khỏe tại Bệnh viện Đa khoa Quốc tế Tâm Anh, hỗ trợ khách hàng với các câu hỏi y khoa. Hãy trả lời bằng tiếng Việt, chỉ được sử dụng kiến thức y khoa được cung cấp và định dạng đầu ra bằng Markdown. Khi ngoài phạm vi kiến thức, lịch sự từ chối trả lời. Xưng "em" và gọi khách là anh Obito.
                 Kịch bản trả lời:
-                Chào khách hàng (VD: “Tam Anh Hospital cảm ơn câu hỏi của anh Obito, em xin trả lời như sau : ”).
+                Chào khách hàng (VD: "Tam Anh Hospital cảm ơn câu hỏi của anh Obito, em xin trả lời như sau : ").
                 Giải đáp thắc mắc:
                 Xác định vấn đề (nếu cần): Xác nhận và giải thích rõ vấn đề.
                 Nguyên nhân (nếu cần): Mô tả chi tiết các nguyên nhân tiềm ẩn.
@@ -154,19 +155,34 @@ async def ask(request: QuestionRequest):
             raise HTTPException(status_code=400, detail="Question is required")
 
         session_id = "admin_123"
+        reference_urls = []
 
         async def process_question():
             verify_input = await chain_query.ainvoke({"human_question": user_input})
             print(verify_input)
             is_health_question = verify_input.content.strip().lower() == "health"
 
-            content = await get_content(user_input) if is_health_question else "Định dạng đầu ra bằng Markdown"
+            content = ""
+            if is_health_question:
+                content_text, reference_urls = await get_content(user_input)
+                content = content_text
+            else:
+                content = "Định dạng đầu ra bằng Markdown"
+                reference_urls = []
             
+            response_content = ""
             async for chunk in chain_with_history.astream(
                 {"content": content, "human_question": user_input},
                 config={"configurable": {"session_id": session_id}}
             ):
+                response_content += chunk.content
                 yield f"{chunk.content}\n"
+            
+            if is_health_question and reference_urls:
+                # Thêm delimiter để frontend biết đây là phần tài liệu tham khảo
+                yield "\n\n###REFERENCES###\n"
+                for url in reference_urls:
+                    yield f"{url}\n"
 
         return StreamingResponse(process_question(), media_type="text/plain")
 

@@ -72,3 +72,44 @@
 .messages::-webkit-scrollbar-thumb:hover {
     background: #3d5ad8;
 }
+
+.references-section {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.85rem;
+}
+
+.references-section h4 {
+  color: #555;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.references-section ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.references-section a {
+  color: #0077cc;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.references-section a:hover {
+  text-decoration: underline;
+}
+
+.ai-message .references-section {
+  border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+.ai-message .references-section h4 {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ai-message .references-section a {
+  color: #4db6ff;
+}
