@@ -54,23 +54,34 @@ const MessageBubble = ({ message, isUser, time, references }) => {
         {validReferences && validReferences.length > 0 && (
           <div className="references-section">
             <h3>Tài liệu tham khảo:</h3>
-            <div className="references-list">
-              {validReferences.map((url, index) => (
-                <div key={index} className="reference-entry">
-                  <div className="reference-bullet-container">•</div>
-                  <div className="reference-content">
-                    <a 
-                      href={url} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="reference-url"
-                    >
-                      {formatDisplayUrl(url)}
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {validReferences.map((url, index) => (
+              <div key={index} style={{
+                display: 'block', 
+                margin: '8px 0',
+                lineHeight: '1.5',
+                paddingLeft: '20px',
+                position: 'relative'
+              }}>
+                <span style={{
+                  position: 'absolute',
+                  left: '5px',
+                }}>•</span>
+                <a 
+                  href={url} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  style={{
+                    color: isUser ? '#0077cc' : '#4db6ff',
+                    textDecoration: 'none',
+                    wordBreak: 'break-all',
+                    display: 'inline-block',
+                    width: '100%'
+                  }}
+                >
+                  {formatDisplayUrl(url)}
+                </a>
+              </div>
+            ))}
           </div>
         )}
       </div>

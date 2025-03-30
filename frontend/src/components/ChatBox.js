@@ -77,47 +77,28 @@ const ChatBox = () => {
             
             console.log("Raw reference text:", refText); // Debug
             
-            // Cải thiện regex để bắt URL chính xác hơn
-            const urlPattern = /https?:\/\/tamanhhospital\.vn\/[a-z0-9-]+\/?/g;
-            const matches = refText.match(urlPattern);
+            // Tìm tất cả URLs trong text
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const matches = refText.match(urlRegex);
             
             if (matches && matches.length > 0) {
-              console.log("URL matches found:", matches); // Debug
-              references = [...references, ...matches];
-            } else {
-              // Thử phân tích theo từng dòng
-              const lines = refText.split(/\n+/).filter(line => line.trim() !== '');
-              const refLines = [];
+              console.log("All URLs found:", matches);
               
-              for (const line of lines) {
-                if (line.includes('https://')) {
-                  // Trích xuất URL từ dòng
-                  const urlMatch = line.match(/https?:\/\/[^\s]+/g);
-                  if (urlMatch) {
-                    refLines.push(...urlMatch);
-                  } else {
-                    // Nếu không thể trích xuất, sử dụng toàn bộ dòng nếu nó giống URL
-                    if (line.trim().startsWith('https://')) {
-                      refLines.push(line.trim());
-                    }
-                  }
-                }
-              }
-              
-              if (refLines.length > 0) {
-                console.log("URL lines found:", refLines); // Debug
-                references = [...references, ...refLines];
+              // Chỉ lấy URLs từ tamanhhospital
+              const tamAnhUrls = matches.filter(url => url.includes('tamanhhospital.vn'));
+              if (tamAnhUrls.length > 0) {
+                console.log("Tam Anh URLs:", tamAnhUrls);
+                references = [...references, ...tamAnhUrls];
               } else {
-                // Phương án cuối cùng: tách theo khoảng trắng
-                const words = refText.split(/\s+/);
-                const refUrls = words.filter(word => 
-                  word.startsWith('https://') && word.trim() !== ''
-                );
-                
-                if (refUrls.length > 0) {
-                  console.log("URL words found:", refUrls); // Debug
-                  references = [...references, ...refUrls];
-                }
+                references = [...references, ...matches];
+              }
+            } else {
+              // Nếu không tìm thấy URLs qua regex, thử tách theo khoảng trắng
+              const words = refText.split(/\s+/);
+              const httpWords = words.filter(word => word.startsWith('http'));
+              if (httpWords.length > 0) {
+                console.log("URLs from words:", httpWords);
+                references = [...references, ...httpWords];
               }
             }
           }
@@ -127,47 +108,28 @@ const ChatBox = () => {
           
           console.log("Additional reference chunk:", refText); // Debug
           
-          // Cải thiện regex để bắt URL chính xác hơn
-          const urlPattern = /https?:\/\/tamanhhospital\.vn\/[a-z0-9-]+\/?/g;
-          const matches = refText.match(urlPattern);
+          // Tìm tất cả URLs trong text
+          const urlRegex = /(https?:\/\/[^\s]+)/g;
+          const matches = refText.match(urlRegex);
           
           if (matches && matches.length > 0) {
-            console.log("Additional URL matches found:", matches); // Debug
-            references = [...references, ...matches];
-          } else {
-            // Thử phân tích theo từng dòng
-            const lines = refText.split(/\n+/).filter(line => line.trim() !== '');
-            const refLines = [];
+            console.log("Additional URLs found:", matches);
             
-            for (const line of lines) {
-              if (line.includes('https://')) {
-                // Trích xuất URL từ dòng
-                const urlMatch = line.match(/https?:\/\/[^\s]+/g);
-                if (urlMatch) {
-                  refLines.push(...urlMatch);
-                } else {
-                  // Nếu không thể trích xuất, sử dụng toàn bộ dòng nếu nó giống URL
-                  if (line.trim().startsWith('https://')) {
-                    refLines.push(line.trim());
-                  }
-                }
-              }
-            }
-            
-            if (refLines.length > 0) {
-              console.log("Additional URL lines found:", refLines); // Debug
-              references = [...references, ...refLines];
+            // Chỉ lấy URLs từ tamanhhospital
+            const tamAnhUrls = matches.filter(url => url.includes('tamanhhospital.vn'));
+            if (tamAnhUrls.length > 0) {
+              console.log("Additional Tam Anh URLs:", tamAnhUrls);
+              references = [...references, ...tamAnhUrls];
             } else {
-              // Phương án cuối cùng: tách theo khoảng trắng
-              const words = refText.split(/\s+/);
-              const refUrls = words.filter(word => 
-                word.startsWith('https://') && word.trim() !== ''
-              );
-              
-              if (refUrls.length > 0) {
-                console.log("Additional URL words found:", refUrls); // Debug
-                references = [...references, ...refUrls];
-              }
+              references = [...references, ...matches];
+            }
+          } else {
+            // Nếu không tìm thấy URLs qua regex, thử tách theo khoảng trắng
+            const words = refText.split(/\s+/);
+            const httpWords = words.filter(word => word.startsWith('http'));
+            if (httpWords.length > 0) {
+              console.log("Additional URLs from words:", httpWords);
+              references = [...references, ...httpWords];
             }
           }
         } else {
