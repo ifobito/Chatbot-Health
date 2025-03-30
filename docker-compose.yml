@@ -11,21 +11,20 @@ services:
       - ./.env
     volumes:
       - ./backend:/app
-<<<<<<< HEAD
-
-=======
-    restart: unless-stopped
->>>>>>> 1b5d6ea (Initial commit)
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GENAI_API_KEY=${GENAI_API_KEY}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - REDIS_URL=${REDIS_URL}
+    networks:
+      - app-network
+    # restart: unless-stopped
 
   redis:
-    image: redislabs/redisearch:latest
-    ports:
-      - "6371:6379"
-<<<<<<< HEAD
-=======
+    image: redis/redis-stack:latest
+    networks:
+      - app-network
     restart: unless-stopped
->>>>>>> 1b5d6ea (Initial commit)
-
 
   frontend:
     build:
@@ -33,26 +32,30 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3000"
-<<<<<<< HEAD
-
-
-
-
-=======
+    environment:
+      - REACT_APP_BACKEND_URL=https://backend.ifobito.online
+    networks:
+      - app-network
     restart: unless-stopped
 
   cloudflared:
     image: cloudflare/cloudflared:latest
-    container_name: cloudflared
-    command: tunnel --no-autoupdate run --token eyJhIjoiMDZmMzNhZTI4Y2QzMmEwMjAxNzViODE2MzUxNGJjNzMiLCJ0IjoiY2Y1Y2U0ZDYtMjhmYi00ZGExLTkzOWEtMDI0NjQzMmNhZTIxIiwicyI6Ik1qZGpaV015WmpZdE5HRmpaUzAwTm1Wa0xXRTJZMll0TldGbU16WmhNVEF4WWpJeCJ9
+    container_name: cloudflared_chatbot
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TOKEN}
+    networks:
+      - app-network
     restart: unless-stopped
 
   dozzle:
-      image: amir20/dozzle:latest  
-      container_name: dozzle      
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock  
-      ports:
-        - "8080:8080" 
-      restart: unless-stopped
->>>>>>> 1b5d6ea (Initial commit)
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9999:8080
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

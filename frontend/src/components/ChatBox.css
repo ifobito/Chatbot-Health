@@ -44,3 +44,31 @@
     color: #f9f9f9;
     margin-top: 5px; /* Tạo khoảng cách giữa greeting và question */
 }
+
+.messages {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 180px);
+    scroll-behavior: smooth;
+}
+
+.messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background: #4d6bfe;
+    border-radius: 3px;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+    background: #3d5ad8;
+}

@@ -36,7 +36,7 @@ app.add_middleware(
 groq_api_key = os.getenv('GROQ_API_KEY')
 api_key = os.getenv('GENAI_API_KEY')
 
-llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-lite-preview-02-05", api_key=api_key, streaming=True)
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-pro-exp-03-25", api_key=api_key, streaming=True)
 llm_classifier = ChatGroq(model="llama-3.3-70b-versatile", api_key=groq_api_key, streaming=True)
 REDIS_URL = os.getenv("REDIS_URL")
 print(f"Connecting to Redis at: {REDIS_URL}")
