@@ -15,13 +15,14 @@ const MessageBubble = ({ message, isUser, time, references }) => {
         {references && references.length > 0 && (
           <div className="references-section">
             <h3>Tài liệu tham khảo:</h3>
-            <ul>
+            <ul className="reference-links">
               {references.map((url, index) => (
-                <li key={index}>
+                <li key={index} className="reference-item">
                   <a 
                     href={url} 
                     target="_blank" 
                     rel="noopener noreferrer"
+                    className="reference-link"
                   >
                     {url.replace('https://tamanhhospital.vn/', '').replace(/-/g, ' ').replace('/', '')}
                   </a>

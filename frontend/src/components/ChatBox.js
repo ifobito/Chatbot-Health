@@ -67,13 +67,40 @@ const ChatBox = () => {
           
           // Nếu có dữ liệu tài liệu tham khảo trong cùng chunk
           if (parts[1]) {
-            const refLines = parts[1].trim().split('\n');
-            references = [...references, ...refLines.filter(url => url.trim() !== '')];
+            // Xử lý phần tài liệu tham khảo để tách các URL
+            const refText = parts[1].trim();
+            
+            // Tìm tất cả các URL bắt đầu bằng https://tamanhhospital.vn/
+            const urlPattern = /(https:\/\/tamanhhospital\.vn\/[a-z0-9-]+\/)/g;
+            const matches = refText.match(urlPattern);
+            
+            if (matches) {
+              references = [...references, ...matches];
+            } else {
+              // Nếu không tìm thấy URL theo pattern, thử tách theo space hoặc newline
+              const refLines = refText.split(/[\s\n]+/).filter(line => 
+                line.startsWith('https://') && line.trim() !== ''
+              );
+              references = [...references, ...refLines];
+            }
           }
         } else if (isCollectingReferences) {
           // Tiếp tục thu thập URLs tham khảo
-          const refLines = chunk.trim().split('\n');
-          references = [...references, ...refLines.filter(url => url.trim() !== '')];
+          const refText = chunk.trim();
+          
+          // Tìm tất cả các URL bắt đầu bằng https://tamanhhospital.vn/
+          const urlPattern = /(https:\/\/tamanhhospital\.vn\/[a-z0-9-]+\/)/g;
+          const matches = refText.match(urlPattern);
+          
+          if (matches) {
+            references = [...references, ...matches];
+          } else {
+            // Nếu không tìm thấy URL theo pattern, thử tách theo space hoặc newline
+            const refLines = refText.split(/[\s\n]+/).filter(line => 
+              line.startsWith('https://') && line.trim() !== ''
+            );
+            references = [...references, ...refLines];
+          }
         } else {
           // Chunk bình thường, thêm vào nội dung tin nhắn
           currentMessage += chunk;
@@ -87,14 +114,14 @@ const ChatBox = () => {
             updatedMessages[updatedMessages.length - 1] = {
               ...lastMessage,
               message: currentMessage,
-              references: references.length > 0 ? references : undefined
+              references: references.length > 0 ? Array.from(new Set(references)) : undefined
             };
           } else {
             updatedMessages.push({
               message: currentMessage,
               isUser: false,
               time: new Date().toLocaleTimeString(),
-              references: references.length > 0 ? references : undefined
+              references: references.length > 0 ? Array.from(new Set(references)) : undefined
             });
           }
   

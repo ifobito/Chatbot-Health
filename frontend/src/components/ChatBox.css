@@ -87,18 +87,28 @@
   font-size: 0.9rem;
 }
 
-.references-section ul {
+.reference-links {
   margin: 0;
   padding-left: 20px;
+  list-style-type: disc;
 }
 
-.references-section a {
+.reference-item {
+  margin-bottom: 8px;
+  display: block;
+  width: 100%;
+  line-height: 1.4;
+}
+
+.reference-link {
   color: #0077cc;
   text-decoration: none;
   word-break: break-all;
+  display: inline-block;
+  max-width: 100%;
 }
 
-.references-section a:hover {
+.reference-link:hover {
   text-decoration: underline;
 }
 
@@ -110,7 +120,7 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-.ai-message .references-section a {
+.ai-message .reference-link {
   color: #4db6ff;
 }
 
